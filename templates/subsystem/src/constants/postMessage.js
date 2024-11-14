@@ -1,0 +1,4 @@
+const PREFIX = 'WAY_MESSAGE';
+
+// 发送路由配置
+export const POST_ROUTES_CONFIG = `${PREFIX}-POST_ROUTES_CONFIG`;

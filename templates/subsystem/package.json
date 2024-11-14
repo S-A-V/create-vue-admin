@@ -1,0 +1,67 @@
+{
+  "name": "vite-project",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --force",
+    "build": "vite build",
+    "build:staging": "vite build --mode staging",
+    "preview": "vite preview",
+    "lint-staged": "lint-staged",
+    "commit": "git-cz",
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky",
+    "predev": "pnpm install",
+    "prebuild": "pnpm install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "2.3.1",
+    "@vueup/vue-quill": "1.2.0",
+    "@vueuse/core": "10.11.0",
+    "@way-ui/constants": "^0.0.3",
+    "@way-ui/utils": "^0.0.9",
+    "axios": "0.28.1",
+    "echarts": "5.5.1",
+    "element-plus": "2.7.6",
+    "file-saver": "2.0.5",
+    "fuse.js": "6.6.2",
+    "js-cookie": "3.0.5",
+    "nprogress": "0.2.0",
+    "pinia": "2.1.7",
+    "vue": "3.4.31",
+    "vue-cropper": "1.1.1",
+    "vue-router": "4.4.0",
+    "way-ui": "^0.0.63"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "19.5.0",
+    "@commitlint/cz-commitlint": "19.5.0",
+    "@vitejs/plugin-vue": "5.0.5",
+    "@way-ui/commitlint-config": "^0.0.2",
+    "@way-ui/eslint-config": "^0.0.2",
+    "@way-ui/prettier-config": "^0.0.1",
+    "@way-ui/stylelint-config": "^0.0.4",
+    "commitizen": "4.3.0",
+    "eslint": "9.10.0",
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
+    "prettier": "3.3.3",
+    "sass": "1.77.5",
+    "stylelint": "16.9.0",
+    "unplugin-auto-import": "0.17.6",
+    "unplugin-icons": "^0.19.2",
+    "unplugin-vue-components": "^0.27.4",
+    "unplugin-vue-setup-extend-plus": "1.0.1",
+    "vite": "5.3.2",
+    "vite-plugin-compression": "0.5.1",
+    "vite-plugin-svg-icons": "2.0.1"
+  }
+}
