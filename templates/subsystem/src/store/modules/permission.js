@@ -11,7 +11,8 @@ import { getAppName } from '@/utils/app';
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../../views/**/*.vue');
 
-const usePermissionStore = defineStore('permission', {
+// 组件库暂时会用到，先不要做删减
+const usePermissionStore = defineStore('_way-permission', {
   state: () => ({
     // 接口返回的原始数据
     rawRoutes: [],
@@ -69,12 +70,16 @@ const usePermissionStore = defineStore('permission', {
       const currentRoutes = rawRoutes.children || [];
       if (!currentRoutes.length) return [];
 
+      /**
+       * 
       const formattedRoutes = currentRoutes.map((route) => {
         if (!appName.startsWith('http')) {
           route.path = `/${appName}${route.path}`;
         }
         return route;
       });
+       */
+      const formattedRoutes = currentRoutes;
       const formattedRoutesString = JSON.stringify(formattedRoutes);
 
       const defaultRoutes = filterAsyncRouter(JSON.parse(formattedRoutesString));

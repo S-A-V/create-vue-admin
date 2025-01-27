@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
 
-const DEFAULT_BANNER = 'create-vue-admin';
+const DEFAULT_BANNER = 'create-way-admin';
 
 export function showBanner() {
   console.log(

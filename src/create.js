@@ -7,10 +7,10 @@ import logSymbols from 'log-symbols';
 
 import {
   DEFAULT_TARGET_DIR,
-  TEMPLATES_FOLDER,
+  PROJECT_TYPES,
   TEMP_FOLDER,
-  PROJECT_TYPE_MAP,
   TEMPLATE_PATH,
+  TEMPLATE_PATH_ARCHIVE,
 } from './constants.js';
 import {
   updatePackageJson,
@@ -23,16 +23,6 @@ import { validateAppName } from './utils/validate.js';
 import { gitClone, gitTag, gitCheckoutToTag } from './utils/git.js';
 
 export default async function create() {
-  const projectType = await select({
-    message: '请选择项目类型：',
-    choices: [
-      { name: 'way-admin', value: PROJECT_TYPE_MAP.MAIN },
-      { name: '空脚手架', value: PROJECT_TYPE_MAP.SUBSYSTEM },
-    ],
-    pageSize: 10,
-    loop: false,
-  });
-
   const appName = await input({
     message: '请输入项目名称：',
     default: DEFAULT_TARGET_DIR,
@@ -60,34 +50,10 @@ export default async function create() {
     }
   }
 
+  /**
+   * 
   switch (projectType) {
     case PROJECT_TYPE_MAP.MAIN: {
-      gitClone(targetDir);
-      const tags = gitTag(targetDir);
-      let selectedTag = null;
-
-      if (tags.length) {
-        const answer = await select({
-          message: '请选择版本号：',
-          choices: tags.reverse().map((tag) => {
-            return {
-              name: tag,
-              value: tag,
-            };
-          }),
-          pageSize: 10,
-          loop: false,
-        });
-        selectedTag = answer;
-      } else {
-        shell.exit(1);
-      }
-
-      gitCheckoutToTag(targetDir, selectedTag);
-      shell.cd(root);
-
-      console.log();
-      copyDir(path.resolve(root, TEMP_FOLDER, TEMPLATE_PATH), root);
       break;
     }
     case PROJECT_TYPE_MAP.SUBSYSTEM: {
@@ -101,6 +67,48 @@ export default async function create() {
     default:
       break;
   }
+   */
+
+  gitClone(targetDir);
+  const tags = gitTag(targetDir);
+  let selectedTag = null;
+
+  if (tags.length) {
+    const answer = await select({
+      message: '请选择版本号：',
+      choices: tags.reverse().map((tag) => {
+        return {
+          name: tag,
+          value: tag,
+        };
+      }),
+      pageSize: 10,
+      loop: false,
+    });
+    selectedTag = answer;
+  } else {
+    shell.exit(1);
+  }
+
+  gitCheckoutToTag(targetDir, selectedTag);
+  shell.cd(root);
+
+  const projectType = await select({
+    message: '请选择项目类型：',
+    choices: PROJECT_TYPES,
+    pageSize: 10,
+    loop: false,
+  });
+
+  console.log();
+  copyDir(
+    path.resolve(
+      root,
+      TEMP_FOLDER,
+      (selectedTag.startsWith('v1.0.0') ? TEMPLATE_PATH_ARCHIVE : TEMPLATE_PATH)[projectType],
+    ),
+    root,
+  );
 
   updatePackageJson(path.resolve(root, 'package.json'), {
     name: appName.trim(),

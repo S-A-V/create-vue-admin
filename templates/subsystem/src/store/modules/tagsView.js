@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
-const useTagsViewStore = defineStore('tags-view', {
+// 组件库暂时会用到，先不要做删减
+const useTagsViewStore = defineStore('_way-tags-view', {
   state: () => ({
     visitedViews: [],
     cachedViews: [],
