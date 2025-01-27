@@ -42,6 +42,8 @@ export const constantRoutes = [
 ];
 
 if (appName) {
+  /**
+   * 
   if (appName.startsWith('http')) {
     // 外链
     constantRoutes.push({
@@ -72,6 +74,20 @@ if (appName) {
       ],
     });
   }
+   */
+  constantRoutes.push({
+    path: '',
+    component: Layout,
+    redirect: '/index',
+    children: [
+      {
+        path: '/index',
+        component: () => import('@/views/index.vue'),
+        name: 'Index',
+        meta: { title: '首页', icon: 'dashboard', affix: true },
+      },
+    ],
+  });
 }
 
 // 动态路由，基于用户权限动态去加载

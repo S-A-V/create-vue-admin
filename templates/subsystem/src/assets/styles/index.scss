@@ -1,14 +1,22 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-class-pattern */
-@import './variables.module';
-@import './mixin';
-@import './transition';
-@import './element-ui';
-@import './sidebar';
-@import './btn';
-@import './way';
+
+// @use './variables.module' as *;
+@use './mixin';
 
 body {
+  --sidebar-width: 204px;
+  --min-content-width: 1200px;
+  --base-menu-color: #fff;
+  --base-menu-color-active: #fff;
+  --base-menu-background: #020b17;
+  --base-logo-title-color: #fff;
+  --base-menu-light-color: rgb(0 0 0 / 70%);
+  --base-menu-light-background: #fff;
+  --base-logo-light-title-color: #001529;
+  --base-sub-menu-background: #020b17;
+  --base-sub-menu-hover: #001528;
+
   height: 100%;
   margin: 0;
   overflow: hidden;
@@ -17,10 +25,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizelegibility;
-}
-
-label {
-  font-weight: 700;
 }
 
 html {
@@ -37,14 +41,6 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
-}
-
-.no-padding {
-  padding: 0 !important;
-}
-
-.padding-content {
-  padding: 4px 0;
 }
 
 a,
@@ -64,32 +60,12 @@ div:focus {
   outline: none;
 }
 
-.fr {
-  float: right;
-}
-
-.fl {
-  float: left;
-}
-
-.pr-5 {
-  padding-right: 5px;
-}
-
-.pl-5 {
-  padding-left: 5px;
-}
-
 .block {
   display: block;
 }
 
 .pointer {
   cursor: pointer;
-}
-
-.inlineBlock {
-  display: block;
 }
 
 .clearfix {
@@ -103,76 +79,13 @@ div:focus {
   }
 }
 
-aside {
-  display: block;
-  padding: 8px 24px;
-  margin-bottom: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-size: 16px;
-  line-height: 32px;
-  color: #2c3e50;
-  background: #eef1f6;
-  border-radius: 2px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  a {
-    color: #337ab7;
-    cursor: pointer;
-
-    &:hover {
-      color: rgb(32 160 255);
-    }
-  }
-}
-
-// main-container全局样式
-.app-container {
-  padding: 20px;
-}
-
 .components-container {
   position: relative;
   margin: 30px 50px;
 }
 
-.pagination-container {
-  margin-top: 30px;
-}
-
 .text-center {
   text-align: center;
-}
-
-.sub-navbar {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  padding-right: 20px;
-  line-height: 50px;
-  text-align: right;
-  background: linear-gradient(
-    90deg,
-    rgb(32 182 249 / 100%) 0%,
-    rgb(32 182 249 / 100%) 0%,
-    rgb(33 120 241 / 100%) 100%,
-    rgb(33 120 241 / 100%) 100%
-  );
-  transition: 600ms ease position;
-
-  .subtitle {
-    font-size: 20px;
-    color: #fff;
-  }
-
-  &.draft {
-    background: #d0d0d0;
-  }
-
-  &.deleted {
-    background: #d0d0d0;
-  }
 }
 
 .link-type,
@@ -185,12 +98,9 @@ aside {
   }
 }
 
-.filter-container {
-  padding-bottom: 10px;
-
-  .filter-item {
-    display: inline-block;
-    margin-bottom: 10px;
-    vertical-align: middle;
-  }
+/* 拖拽列样式 */
+.sortable-ghost {
+  color: #fff !important;
+  background: #42b983 !important;
+  opacity: 0.8;
 }

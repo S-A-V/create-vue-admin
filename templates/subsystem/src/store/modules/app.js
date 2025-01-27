@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie';
 import { defineStore } from 'pinia';
 
-const useAppStore = defineStore('app', {
+// 组件库暂时会用到，先不要做删减
+const useAppStore = defineStore('_way-app', {
   state: () => ({
     sidebar: {
       opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,

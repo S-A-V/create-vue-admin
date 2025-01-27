@@ -15,10 +15,11 @@ const {
 
 const storageSetting = JSON.parse(localStorage.getItem('layout-setting')) || '';
 
-const useSettingsStore = defineStore('settings', {
+// 组件库暂时会用到，先不要做删减
+const useSettingsStore = defineStore('_way-settings', {
   state: () => ({
     title: '',
-    theme: storageSetting.theme || '#3660FF',
+    // theme: storageSetting.theme || '#3660FF',
     sideTheme: storageSetting.sideTheme || sideTheme,
     showSettings: showSettings,
     topNav: storageSetting.topNav === undefined ? topNav : storageSetting.topNav,

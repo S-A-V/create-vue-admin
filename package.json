@@ -43,16 +43,16 @@
   "devDependencies": {
     "@commitlint/cli": "19.5.0",
     "@commitlint/cz-commitlint": "19.5.0",
-    "@way-ui/commitlint-config": "^0.0.2",
-    "@way-ui/eslint-config": "^0.0.2",
-    "@way-ui/prettier-config": "^0.0.1",
-    "@way-ui/stylelint-config": "^0.0.4",
+    "@way-ui/commitlint-config": "0.1.0",
+    "@way-ui/eslint-config": "0.1.1",
+    "@way-ui/prettier-config": "0.1.0",
+    "@way-ui/stylelint-config": "0.1.2",
     "commitizen": "4.3.0",
     "eslint": "9.10.0",
     "husky": "9.1.6",
     "lint-staged": "15.2.10",
     "prettier": "3.3.3",
-    "sass": "1.77.5",
+    "sass-embedded": "1.81.1",
     "stylelint": "16.9.0"
   }
 }

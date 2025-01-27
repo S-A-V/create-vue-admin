@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
-import { $token } from 'way-ui';
+import { $file, $token } from 'way-ui';
 import { getInfo } from '@/api';
 import defAva from '@/assets/images/profile.png';
 
-const useUserStore = defineStore('user', {
+// 组件库暂时会用到，先不要做删减
+const useUserStore = defineStore('_way-user', {
   state: () => ({
     token: $token.get(),
     id: '',
@@ -21,13 +22,13 @@ const useUserStore = defineStore('user', {
     getInfo() {
       return new Promise((resolve, reject) => {
         getInfo()
-          .then(({ data }) => {
+          .then(async ({ data }) => {
             const res = data;
             const user = res.user;
             const avatar =
               user.avatar == '' || user.avatar == null
                 ? defAva
-                : import.meta.env.VITE_APP_BASE_API + user.avatar;
+                : await $file.fetchWithToken(import.meta.env.VITE_APP_BASE_URL + user.avatar);
             if (res.roles && res.roles.length > 0) {
               // 验证返回的roles是否是一个非空数组
               this.roles = res.roles;

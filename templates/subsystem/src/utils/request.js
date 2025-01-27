@@ -1,24 +1,23 @@
 import axios from 'axios';
-import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus';
+import { ElNotification, ElMessageBox, ElMessage } from 'element-plus';
+import { $token } from 'way-ui';
 import { Encryption } from '@way-ui/utils/encryption';
 import LRUCache from '@way-ui/utils/lru';
-import { $token } from 'way-ui';
 import { ERROR_CODE_MESSAGES } from '@way-ui/constants';
-import { tansParams, blobValidate, showError, getEncrypted } from '@way-ui/utils/way';
-import { saveAs } from 'file-saver';
+import { tansParams, showError, getEncrypted } from '@way-ui/utils/way';
 import useUserStore from '@/store/modules/user';
-
-let downloadLoadingInstance;
 
 const encryption = new Encryption(import.meta.env.VITE_BASE_ENCRYPTION_KEY);
 
 const lruCache = new LRUCache(3);
 
+const WHITE_LIST = ['/system/config/configKey/sys.request.encrypt'];
+
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: import.meta.env.VITE_APP_BASE_API,
+  baseURL: import.meta.env.VITE_APP_BASE_URL + import.meta.env.VITE_APP_BASE_API,
   // 超时
   timeout: 10000,
 });
@@ -27,10 +26,10 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // 是否需要设置 token
-    const isToken = (config.headers || {}).isToken === false;
+    const noToken = !!config.headers?.noToken;
     // 是否需要防止数据重复提交
     const isRepeatSubmit = (config.headers || {}).repeatSubmit === false;
-    if ($token.get() && !isToken) {
+    if ($token.get() && !noToken) {
       config.headers['Authorization'] = 'Bearer ' + $token.get(); // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     // get请求映射params参数
@@ -81,7 +80,13 @@ service.interceptors.request.use(
     }
 
     // 如果开启加密，加密 post 请求的参数
-    if (config.method === 'post' && getEncrypted() && config.data) {
+    // Content-Type 为 application/x-www-form-urlencoded 时，不加密
+    if (
+      config.method === 'post' &&
+      config.headers['Content-Type'] !== 'application/x-www-form-urlencoded' &&
+      getEncrypted() &&
+      config.data
+    ) {
       config.data = {
         data: encryption.smEncrypt(JSON.stringify(config.data)),
       };
@@ -103,8 +108,14 @@ service.interceptors.response.use(
     // 获取错误信息
     const msg = ERROR_CODE_MESSAGES[code] || res.data.msg || ERROR_CODE_MESSAGES['default'];
 
-    // 如果开启加密，解密 post 请求返回值的 data 字段
-    if (res.config.method === 'post' && getEncrypted() && res.data.data) {
+    // 如果开启加密，解密请求返回值的 data 字段
+    // Content-Type 为 application/x-www-form-urlencoded 时不加密，返回值无需解密
+    if (
+      !WHITE_LIST.includes(res.config.url) &&
+      res.config.headers['Content-Type'] !== 'application/x-www-form-urlencoded' &&
+      getEncrypted() &&
+      res.data.data
+    ) {
       res.data.data = JSON.parse(encryption.smDecrypt(res.data.data));
     }
 
